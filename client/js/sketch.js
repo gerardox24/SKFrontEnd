@@ -39,7 +39,7 @@ function draw() {
     for (let i = 0; i < objects.length; i++) {
         noStroke();
         fill(255, 255, 255);
-        text(objects[i].label, objects[i].x * width, objects[i].y * height - 5);
+        text(objects[i].name, objects[i].x * width, objects[i].y * height - 5);
         // text('CALORIAS: ' + palta.calories, objects[0].x * width, objects[0].y * height + 20);
         // text('CARBOHIDRATOS: ' + palta.carbohydrates, objects[0].x * width, objects[0].y * height + 50);
         // text('GRASAS SATURADAS: ' + palta.satured_fat, objects[0].x * width, objects[0].y * height + 70);
@@ -48,24 +48,25 @@ function draw() {
         strokeWeight(1);
         stroke(255, 255, 255);
         rect(objects[i].x * width, objects[i].y * height, objects[i].w * width, objects[i].h * height);
-        strokeWeight(1);
+
+        var positionX = objects[i].x * width;
+        var widthRectangle = objects[i].w * width;
+        var positionY = objects[i].y * height;
+        var heightRectangle = objects[i].h * height;
+
+        var circleCenterX = positionX + (widthRectangle / 2);
+        var circleCenterY = positionY + (heightRectangle / 2);
+        var radius = Math.sqrt(Math.pow(widthRectangle, 2) + Math.pow(heightRectangle, 2));
+
+        var n = 7;
+
+        strokeWeight(radius / n);
         stroke(0, 255, 0);
         noFill();
-        var x = parseFloat(objects[i].x);
-        var w = parseFloat(objects[i].w / 2);
-        var y = parseFloat(objects[i].y);
-        var h = parseFloat(objects[i].h / 2);
-        var centerX = parseFloat(x + w);
-        var centerY = parseFloat(y + h);
-        // console.log(centerX);
-        // console.log(centerY);
-        start = centerX * width;
-        end = centerY * height;
-        aux = Math.pow(objects[i].w * width, 2) + Math.pow(objects[i].h * height, 2);
-        radius = Math.sqrt(aux);
-        // console.log(start, end, radius);
-        // arc(start, end, objects[0].w * width, objects[0].h * height, 0, TWO_PI);
-        arc(start, end, radius, radius, 0, TWO_PI);
+
+        radiusBlur = (n + 1) * radius / n;
+
+        arc(circleCenterX, circleCenterY, radiusBlur, radiusBlur, 0, TWO_PI);
     }
 }
 
@@ -77,7 +78,20 @@ function startDetecting() {
 function detect() {
     yolo.detect(function(err, results) {
         console.log('help');
-        objects = results;
+        myarray = [];
+        object1 = {
+            x: 0.2,
+            y: 0.3,
+            w: 0.15,
+            h: 0.23,
+            name: "fresh green beans",
+            calories: 31,
+            satured_fat: 0.05,
+            carbohydrates: 6.97,
+            sugar: 3.26
+        }
+        myarray.push(object1)
+        objects = myarray;
         detect();
     });
 }
