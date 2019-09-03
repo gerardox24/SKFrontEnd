@@ -46,7 +46,7 @@ function draw() {
         // text('AZUCAR: ' + palta.sugar, objects[0].x * width, objects[0].y * height + 90);
         noFill();
         strokeWeight(1);
-        stroke(255, 255, 255);
+        stroke(28, 195, 2);
         rect(objects[i].x * width, objects[i].y * height, objects[i].w * width, objects[i].h * height);
 
         var positionX = objects[i].x * width;
@@ -60,13 +60,51 @@ function draw() {
 
         var n = 7;
 
-        strokeWeight(radius / n);
-        stroke(0, 255, 0);
+        var thickness = radius / n;
+        var radiusBlur = (n + 1) * radius / n;
+
+        strokeWeight(thickness);
+        stroke(28, 195, 2);
         noFill();
 
-        radiusBlur = (n + 1) * radius / n;
-
         arc(circleCenterX, circleCenterY, radiusBlur, radiusBlur, 0, TWO_PI);
+
+        var initX = circleCenterX;
+        var initY = positionY - (radius / 4);
+        var endX = initX + (radiusBlur / 2);
+        var endY = initY - (thickness / 2);
+
+        stroke(235, 211, 1);
+        strokeWeight(5);
+        // name
+        line(initX, initY, endX, endY);
+        strokeWeight(1);
+        text('INGREDIENTE: ' + objects[i].name, endX + 10, endY);
+        strokeWeight(5);
+
+        // calories
+        line(initX + radius / (n - 2), initY + 1 * thickness / 2, endX + radius / (n - 2), endY + 2 * thickness / 2);
+        strokeWeight(1);
+        text('CALORÍAS: ' + objects[i].calories, endX + radius / (n - 2) + 10, endY + 2 * thickness / 2);
+        strokeWeight(5);
+
+        // satured_fat
+        line(initX + radius / (n - 4.5), initY + 3 * thickness / 2, endX + radius / (n - 4.5), endY + 4 * thickness / 2);
+        strokeWeight(1);
+        text('GRASAS SATURADAS: ' + objects[i].satured_fat, endX + radius / (n - 4.5) + 10, endY + 4 * thickness / 2);
+        strokeWeight(5);
+
+        // carbohydrates
+        line(initX + radius / (n - 5), initY + 5 * thickness / 2, endX + radius / (n - 5), endY + 6 * thickness / 2);
+        strokeWeight(1);
+        text('CARBOHIDRATOS: ' + objects[i].carbohydrates, endX + radius / (n - 5) + 10, endY + 6 * thickness / 2);
+        strokeWeight(5);
+
+        // sugar
+        line(initX + radius / (n - 5.25), initY + 7 * thickness / 2, endX + radius / (n - 5.25), endY + 8 * thickness / 2);
+        strokeWeight(1);
+        text('AZÚCAR: ' + objects[i].sugar, endX + radius / (n - 5.25) + 10, endY + 8 * thickness / 2);
+        strokeWeight(5);
     }
 }
 
