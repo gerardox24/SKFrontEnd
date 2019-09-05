@@ -30,14 +30,7 @@ function setup() {
     //angleMode(DEGREES);
 }
 
-function draw() {
-
-
-    // if (!palta) { return };
-    // clear();
-
-    image(video, 0, 0, width, height);
-    // background(0);
+function paint() {
     for (let i = 0; i < objects.length; i++) {
         noStroke();
         fill(255, 255, 255);
@@ -108,6 +101,17 @@ function draw() {
         text('AZÚCAR: ' + objects[i].sugar, endX + radius / (n - 5.25) + 10, endY + 8 * thickness / 2);
         strokeWeight(5);
     }
+}
+
+function draw() {
+
+    // if (!palta) { return };
+    // clear();
+    image(video, 0, 0, width, height);
+    // background(0);
+    paint();
+    //setTimeout(paint(), 1000);
+    
 }
 
 function startDetecting() {
