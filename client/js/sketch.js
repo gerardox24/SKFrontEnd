@@ -17,6 +17,8 @@ let vainitas;
 let aji_amarillo;
 let palta;
 
+var request = new XMLHttpRequest()
+
 function setup() {
     var canvas = createCanvas(1600, 900);
     video = createCapture(VIDEO);
@@ -116,20 +118,31 @@ function startDetecting() {
 function detect() {
     yolo.detect(function(err, results) {
         console.log('help');
-        myarray = [];
-        object1 = {
-            x: 0.2,
-            y: 0.3,
-            w: 0.15,
-            h: 0.23,
-            name: "fresh green beans",
-            calories: 31,
-            satured_fat: 0.05,
-            carbohydrates: 6.97,
-            sugar: 3.26
+
+        request.open('GET', 'https://smart-kitchen-upc.herokuapp.com/api/ingredients/Vainitas', true)
+        request.onload = function() {
+            var data = JSON.parse(this.response)
+            if (request.status >= 200 && request.status < 400) {
+                myarray = [];
+                object1 = {
+                    x: 0.2,
+                    y: 0.3,
+                    w: 0.15,
+                    h: 0.23,
+                    name: "fresh green beans",
+                    calories: data.calories,
+                    satured_fat: data.satured_fat,
+                    carbohydrates: data.carbohydrates,
+                    sugar: data.sugar
+                }
+                myarray.push(object1)
+                objects = myarray;
+                console.log("data: ", data)
+            } else {
+                console.log("error: ", "Error getting data from API")
+            }
         }
-        myarray.push(object1)
-        objects = myarray;
+        request.send()
         detect();
     });
 }
